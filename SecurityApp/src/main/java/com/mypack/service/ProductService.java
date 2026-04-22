@@ -1,7 +1,11 @@
 package com.mypack.service;
 
 import com.mypack.DTO.Product;
+import com.mypack.entity.UserInfo;
+import com.mypack.repository.UserInfoRepository;
 import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,6 +15,12 @@ import java.util.stream.IntStream;
 
 @Service
 public class ProductService {
+
+    @Autowired
+    UserInfoRepository repository;
+
+    @Autowired
+    PasswordEncoder encoder;
 
     List<Product> list;
 
@@ -33,5 +43,11 @@ public class ProductService {
         return  list.stream().filter(product -> product.getId()==id)
                 .findAny()
                 .orElseThrow(()-> new RuntimeException("product not found with id: "+id));
+    }
+
+    public String addUser(UserInfo userInfo){
+        userInfo.setPassword(encoder.encode(userInfo.getPassword()));
+        repository.save(userInfo);
+        return "user added successfully...";
     }
 }
