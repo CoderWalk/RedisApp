@@ -1,5 +1,6 @@
 package com.mypack.controller;
 
+import com.mypack.DTO.AuthRequest;
 import com.mypack.DTO.Product;
 import com.mypack.entity.UserInfo;
 import com.mypack.service.ProductService;
@@ -39,5 +40,10 @@ public class ProductController {
     @PostMapping("/save")
     public String addUser(@RequestBody UserInfo userInfo){
         return service.addUser(userInfo);
+    }
+
+    @GetMapping("/authenticate")
+    public String authenticateAndGenerateToken(@RequestBody AuthRequest authRequest){
+        return service.generateToken(authRequest.getUsername());
     }
 }

@@ -50,4 +50,5 @@ public class ProductService {
         repository.save(userInfo);
         return "user added successfully...";
     }
+
 }
